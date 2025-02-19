@@ -1,0 +1,885 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Escribe un programa que calcule el índice de masa corporal (IMC) y determine la categoría (bajo peso, normal, sobrepeso, obesidad). Al final, el programa debe imprimir: el nombre del usuario, su categoría y una breve descripción de lo que debe hacer de acuerdo a su categoría.***"
+      ],
+      "metadata": {
+        "id": "x9axu1hTnbfr"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "60nlTL-TnRXs",
+        "outputId": "044231c5-ceac-411c-be6e-792897c0c9f6"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "¿Cuántas personas desea evaluar? 1\n",
+            "\n",
+            "Persona 1:\n",
+            "Nombre: andres\n",
+            "Peso en kg: 52\n",
+            "Altura en metros: 1.74\n",
+            "\n",
+            "=== Resultados del IMC ===\n",
+            "\n",
+            "Resultados para persona 1:\n",
+            "Nombre: andres\n",
+            "IMC: 17.2\n",
+            "Categoría: bajo peso\n",
+            "Recomendación: Consulte con un nutricionista para desarrollar un plan de alimentación.\n",
+            "\n",
+            "=== Estadísticas ===\n",
+            "bajo peso: 1 personas (100.0%)\n"
+          ]
+        }
+      ],
+      "source": [
+        "def calcular_imc(peso, altura):\n",
+        "    \"\"\"Calcula el IMC dado el peso en kg y la altura en metros\"\"\"\n",
+        "    return peso / (altura ** 2)\n",
+        "\n",
+        "def obtener_categoria_imc(imc):\n",
+        "    \"\"\"Determina la categoría de peso basada en el IMC\"\"\"\n",
+        "    if imc < 18.5:\n",
+        "        return \"bajo peso\"\n",
+        "    elif imc < 25:\n",
+        "        return \"peso normal\"\n",
+        "    elif imc < 30:\n",
+        "        return \"sobrepeso\"\n",
+        "    else:\n",
+        "        return \"obesidad\"\n",
+        "\n",
+        "def obtener_recomendacion(categoria):\n",
+        "    \"\"\"Proporciona recomendaciones basadas en la categoría de IMC\"\"\"\n",
+        "    recomendaciones = {\n",
+        "        \"bajo peso\": \"Consulte con un nutricionista para desarrollar un plan de alimentación.\",\n",
+        "        \"peso normal\": \"¡Excelente! Mantenga sus hábitos saludables actuales.\",\n",
+        "        \"sobrepeso\": \"Considere aumentar su actividad física y ajustar su dieta.\",\n",
+        "        \"obesidad\": \"Es importante consultar con un profesional de la salud.\"\n",
+        "    }\n",
+        "    return recomendaciones[categoria]\n",
+        "\n",
+        "registros = []\n",
+        "\n",
+        "num_personas = int(input(\"¿Cuántas personas desea evaluar? \"))\n",
+        "\n",
+        "for i in range(num_personas):\n",
+        "    print(f\"\\nPersona {i+1}:\")\n",
+        "    nombre = input(\"Nombre: \")\n",
+        "    peso = float(input(\"Peso en kg: \"))\n",
+        "    altura = float(input(\"Altura en metros: \"))\n",
+        "\n",
+        "    imc = calcular_imc(peso, altura)\n",
+        "    categoria = obtener_categoria_imc(imc)\n",
+        "    recomendacion = obtener_recomendacion(categoria)\n",
+        "\n",
+        "    persona = {\n",
+        "        \"nombre\": nombre,\n",
+        "        \"peso\": peso,\n",
+        "        \"altura\": altura,\n",
+        "        \"imc\": imc,\n",
+        "        \"categoria\": categoria,\n",
+        "        \"recomendacion\": recomendacion\n",
+        "    }\n",
+        "\n",
+        "    registros.append(persona)\n",
+        "\n",
+        "print(\"\\n=== Resultados del IMC ===\")\n",
+        "for i, persona in enumerate(registros, 1):\n",
+        "    print(f\"\\nResultados para persona {i}:\")\n",
+        "    print(f\"Nombre: {persona['nombre']}\")\n",
+        "    print(f\"IMC: {persona['imc']:.1f}\")\n",
+        "    print(f\"Categoría: {persona['categoria']}\")\n",
+        "    print(f\"Recomendación: {persona['recomendacion']}\")\n",
+        "\n",
+        "categorias_count = {}\n",
+        "for persona in registros:\n",
+        "    categoria = persona['categoria']\n",
+        "    categorias_count[categoria] = categorias_count.get(categoria, 0) + 1\n",
+        "\n",
+        "print(\"\\n=== Estadísticas ===\")\n",
+        "for categoria, cantidad in categorias_count.items():\n",
+        "    porcentaje = (cantidad / num_personas) * 100\n",
+        "    print(f\"{categoria}: {cantidad} personas ({porcentaje:.1f}%)\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Desarrolla un programa que simule una calculadora simple (+, -, *, /) con dos números.***"
+      ],
+      "metadata": {
+        "id": "l1OLOBcgoKJh"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def realizar_operacion(num1, num2, operador):\n",
+        "    \"\"\"\n",
+        "    Realiza la operación matemática básica según el operador proporcionado\n",
+        "    \"\"\"\n",
+        "    if operador == '+':\n",
+        "        return num1 + num2\n",
+        "    elif operador == '-':\n",
+        "        return num1 - num2\n",
+        "    elif operador == '*':\n",
+        "        return num1 * num2\n",
+        "    elif operador == '/':\n",
+        "        if num2 != 0:\n",
+        "            return num1 / num2\n",
+        "        return \"Error: División por cero\"\n",
+        "    else:\n",
+        "        return \"Operador no válido\"\n",
+        "\n",
+        "def mostrar_menu():\n",
+        "    \"\"\"\n",
+        "    Muestra el menú de operaciones disponibles\n",
+        "    \"\"\"\n",
+        "    print(\"\\nOperaciones disponibles:\")\n",
+        "    print(\"+ : Suma\")\n",
+        "    print(\"- : Resta\")\n",
+        "    print(\"* : Multiplicación\")\n",
+        "    print(\"/ : División\")\n",
+        "\n",
+        "num_operaciones = int(input(\"¿Cuántas operaciones desea realizar? \"))\n",
+        "\n",
+        "historial = []\n",
+        "\n",
+        "for i in range(num_operaciones):\n",
+        "    print(f\"\\nOperación {i+1}:\")\n",
+        "    mostrar_menu()\n",
+        "\n",
+        "    num1 = float(input(\"Ingrese el primer número: \"))\n",
+        "    num2 = float(input(\"Ingrese el segundo número: \"))\n",
+        "    operador = input(\"Ingrese el operador (+,-,*,/): \")\n",
+        "\n",
+        "    resultado = realizar_operacion(num1, num2, operador)\n",
+        "\n",
+        "    operacion = {\n",
+        "        \"num1\": num1,\n",
+        "        \"num2\": num2,\n",
+        "        \"operador\": operador,\n",
+        "        \"resultado\": resultado\n",
+        "    }\n",
+        "    historial.append(operacion)\n",
+        "\n",
+        "print(\"\\n=== Historial de Operaciones ===\")\n",
+        "for i, op in enumerate(historial, 1):\n",
+        "    print(f\"\\nOperación {i}:\")\n",
+        "    print(f\"{op['num1']} {op['operador']} {op['num2']} = {op['resultado']}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nfE9DFpIoLrh",
+        "outputId": "935157bd-c440-44c0-f36e-71e97b2382ed"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "¿Cuántas operaciones desea realizar? 1\n",
+            "\n",
+            "Operación 1:\n",
+            "\n",
+            "Operaciones disponibles:\n",
+            "+ : Suma\n",
+            "- : Resta\n",
+            "* : Multiplicación\n",
+            "/ : División\n",
+            "Ingrese el primer número: 2\n",
+            "Ingrese el segundo número: 2\n",
+            "Ingrese el operador (+,-,*,/): *\n",
+            "\n",
+            "=== Historial de Operaciones ===\n",
+            "\n",
+            "Operación 1:\n",
+            "2.0 * 2.0 = 4.0\n",
+            "\n",
+            "=== Estadísticas ===\n",
+            "Operador *: usado 1 veces (100.0%)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Crea un programa que determine la calificación en letras (A, B, C, D, F) según una nota numérica (0-100).***"
+      ],
+      "metadata": {
+        "id": "se1vSZqrpOhw"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def obtener_letra(calificacion):\n",
+        "    \"\"\"\n",
+        "    Convierte una calificación numérica a letra\n",
+        "    \"\"\"\n",
+        "    if calificacion >= 90:\n",
+        "        return 'A'\n",
+        "    elif calificacion >= 80:\n",
+        "        return 'B'\n",
+        "    elif calificacion >= 70:\n",
+        "        return 'C'\n",
+        "    elif calificacion >= 60:\n",
+        "        return 'D'\n",
+        "    else:\n",
+        "        return 'F'\n",
+        "\n",
+        "def obtener_comentario(letra):\n",
+        "    \"\"\"\n",
+        "    Proporciona un comentario según la calificación en letra\n",
+        "    \"\"\"\n",
+        "    comentarios = {\n",
+        "        'A': \"¡Excelente! Sigue así.\",\n",
+        "        'B': \"Muy bien. Buen trabajo.\",\n",
+        "        'C': \"Regular. Puedes mejorar.\",\n",
+        "        'D': \"Necesitas estudiar más.\",\n",
+        "        'F': \"Necesitas ayuda adicional.\"\n",
+        "    }\n",
+        "    return comentarios[letra]\n",
+        "estudiantes = []\n",
+        "num_estudiantes = int(input(\"¿Cuántos estudiantes desea evaluar? \"))\n",
+        "for i in range(num_estudiantes):\n",
+        "    print(f\"\\nEstudiante {i+1}:\")\n",
+        "    nombre = input(\"Nombre del estudiante: \")\n",
+        "    while True:\n",
+        "        try:\n",
+        "            calificacion = float(input(\"Calificación (0-100): \"))\n",
+        "            if 0 <= calificacion <= 100:\n",
+        "                break\n",
+        "            else:\n",
+        "                print(\"La calificación debe estar entre 0 y 100\")\n",
+        "        except ValueError:\n",
+        "            print(\"Por favor, ingrese un número válido\")\n",
+        "    letra = obtener_letra(calificacion)\n",
+        "    comentario = obtener_comentario(letra)\n",
+        "    estudiante = {\n",
+        "        \"nombre\": nombre,\n",
+        "        \"calificacion\": calificacion,\n",
+        "        \"letra\": letra,\n",
+        "        \"comentario\": comentario\n",
+        "    }\n",
+        "    estudiantes.append(estudiante)\n",
+        "print(\"\\n=== Resultados de Calificaciones ===\")\n",
+        "for i, estudiante in enumerate(estudiantes, 1):\n",
+        "    print(f\"\\nEstudiante {i}:\")\n",
+        "    print(f\"Nombre: {estudiante['nombre']}\")\n",
+        "    print(f\"Calificación numérica: {estudiante['calificacion']}\")\n",
+        "    print(f\"Calificación en letra: {estudiante['letra']}\")\n",
+        "    print(f\"Comentario: {estudiante['comentario']}\")\n",
+        "\n",
+        "print(\"\\n=== Estadísticas ===\")\n",
+        "letras_count = {}\n",
+        "for estudiante in estudiantes:\n",
+        "    letra = estudiante['letra']\n",
+        "    letras_count[letra] = letras_count.get(letra, 0) + 1"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "B-w4zNIMpy3I",
+        "outputId": "551a1fca-0a28-4f6b-aa1f-775a5f3782f7"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "¿Cuántos estudiantes desea evaluar? 2\n",
+            "\n",
+            "Estudiante 1:\n",
+            "Nombre del estudiante: andres\n",
+            "Calificación (0-100): 55\n",
+            "\n",
+            "Estudiante 2:\n",
+            "Nombre del estudiante: camilo\n",
+            "Calificación (0-100): 23\n",
+            "\n",
+            "=== Resultados de Calificaciones ===\n",
+            "\n",
+            "Estudiante 1:\n",
+            "Nombre: andres\n",
+            "Calificación numérica: 55.0\n",
+            "Calificación en letra: F\n",
+            "Comentario: Necesitas ayuda adicional.\n",
+            "\n",
+            "Estudiante 2:\n",
+            "Nombre: camilo\n",
+            "Calificación numérica: 23.0\n",
+            "Calificación en letra: F\n",
+            "Comentario: Necesitas ayuda adicional.\n",
+            "\n",
+            "=== Estadísticas ===\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Escribe un programa que determine el día de la semana según un número (1-7).***"
+      ],
+      "metadata": {
+        "id": "HAoML0-RqcBT"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def obtener_dia(numero):\n",
+        "    \"\"\"\n",
+        "    Convierte un número (1-7) al día de la semana correspondiente\n",
+        "    \"\"\"\n",
+        "    dias = {\n",
+        "        1: \"Lunes\",\n",
+        "        2: \"Martes\",\n",
+        "        3: \"Miércoles\",\n",
+        "        4: \"Jueves\",\n",
+        "        5: \"Viernes\",\n",
+        "        6: \"Sábado\",\n",
+        "        7: \"Domingo\"\n",
+        "    }\n",
+        "    return dias.get(numero, \"Número no válido\")\n",
+        "def obtener_tipo_dia(dia):\n",
+        "    \"\"\"\n",
+        "    Determina si el día es laboral o fin de semana\n",
+        "    \"\"\"\n",
+        "    if dia in [\"Sábado\", \"Domingo\"]:\n",
+        "        return \"Fin de semana\"\n",
+        "    return \"Día laboral\"\n",
+        "consultas = []\n",
+        "num_consultas = int(input(\"¿Cuántos días desea consultar? \"))\n",
+        "for i in range(num_consultas):\n",
+        "    print(f\"\\nConsulta {i+1}:\")\n",
+        "    while True:\n",
+        "        try:\n",
+        "            numero = int(input(\"Ingrese un número (1-7): \"))\n",
+        "            if 1 <= numero <= 7:\n",
+        "                break\n",
+        "            else:\n",
+        "                print(\"El número debe estar entre 1 y 7\")\n",
+        "        except ValueError:\n",
+        "            print(\"Por favor, ingrese un número válido\")\n",
+        "    dia = obtener_dia(numero)\n",
+        "    tipo = obtener_tipo_dia(dia)\n",
+        "    consulta = {\n",
+        "        \"numero\": numero,\n",
+        "        \"dia\": dia,\n",
+        "        \"tipo\": tipo\n",
+        "    }\n",
+        "    consultas.append(consulta)\n",
+        "print(\"\\n=== Resultados ===\")\n",
+        "for i, consulta in enumerate(consultas, 1):\n",
+        "    print(f\"\\nConsulta {i}:\")\n",
+        "    print(f\"Número: {consulta['numero']}\")\n",
+        "    print(f\"Día: {consulta['dia']}\")\n",
+        "    print(f\"Tipo: {consulta['tipo']}\")\n",
+        "#\n",
+        "print(\"\\n=== Estadísticas ===\")\n",
+        "dias_laborales = sum(1 for c in consultas if c['tipo'] == \"Día laboral\")\n",
+        "dias_finde = sum(1 for c in consultas if c['tipo'] == \"Fin de semana\")\n",
+        "\n",
+        "print(f\"Días laborales consultados: {dias_laborales}\")\n",
+        "print(f\"Días de fin de semana consultados: {dias_finde}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "kvbuUhsJq5fP",
+        "outputId": "2712cd4f-6fd3-44d3-96c1-1d8552459aff"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "¿Cuántos días desea consultar? 2\n",
+            "\n",
+            "Consulta 1:\n",
+            "Ingrese un número (1-7): 1\n",
+            "\n",
+            "Consulta 2:\n",
+            "Ingrese un número (1-7): 6\n",
+            "\n",
+            "=== Resultados ===\n",
+            "\n",
+            "Consulta 1:\n",
+            "Número: 1\n",
+            "Día: Lunes\n",
+            "Tipo: Día laboral\n",
+            "\n",
+            "Consulta 2:\n",
+            "Número: 6\n",
+            "Día: Sábado\n",
+            "Tipo: Fin de semana\n",
+            "\n",
+            "=== Estadísticas ===\n",
+            "Días laborales consultados: 1\n",
+            "Días de fin de semana consultados: 1\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Desarrolla un programa que valide si tres números pueden formar un triángulo y de qué tipo es.***\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "m1syWRO5szgg"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def es_triangulo(a, b, c):\n",
+        "    \"\"\"\n",
+        "    Verifica si tres lados pueden formar un triángulo\n",
+        "    (cada lado debe ser menor que la suma de los otros dos)\n",
+        "    \"\"\"\n",
+        "    return (a + b > c) and (b + c > a) and (a + c > b)\n",
+        "\n",
+        "def tipo_por_lados(a, b, c):\n",
+        "    \"\"\"\n",
+        "    Determina el tipo de triángulo según sus lados\n",
+        "    \"\"\"\n",
+        "    if a == b == c:\n",
+        "        return \"Equilátero\"\n",
+        "    elif a == b or b == c or a == c:\n",
+        "        return \"Isósceles\"\n",
+        "    else:\n",
+        "        return \"Escaleno\"\n",
+        "\n",
+        "def tipo_por_angulos(a, b, c):\n",
+        "    \"\"\"\n",
+        "    Determina el tipo de triángulo según sus ángulos usando el teorema de Pitágoras\n",
+        "    \"\"\"\n",
+        "    lados = sorted([a, b, c], reverse=True)\n",
+        "    a2 = lados[0]**2\n",
+        "    b2c2 = lados[1]**2 + lados[2]**2\n",
+        "\n",
+        "    if abs(a2 - b2c2) < 0.01:\n",
+        "        return \"Rectángulo\"\n",
+        "    elif a2 > b2c2:\n",
+        "        return \"Obtusángulo\"\n",
+        "    else:\n",
+        "        return \"Acutángulo\"\n",
+        "triangulos = []\n",
+        "num_triangulos = int(input(\"¿Cuántos triángulos desea analizar? \"))\n",
+        "\n",
+        "for i in range(num_triangulos):\n",
+        "    print(f\"\\nTriángulo {i+1}:\")\n",
+        "    lados = []\n",
+        "    for j in range(3):\n",
+        "        while True:\n",
+        "            try:\n",
+        "                lado = float(input(f\"Ingrese el lado {j+1}: \"))\n",
+        "                if lado > 0:\n",
+        "                    lados.append(lado)\n",
+        "                    break\n",
+        "                else:\n",
+        "                    print(\"El lado debe ser mayor que 0\")\n",
+        "            except ValueError:\n",
+        "                print(\"Por favor, ingrese un número válido\")\n",
+        "\n",
+        "    # Analizar el triángulo\n",
+        "    triangulo = {\n",
+        "        \"lados\": lados,\n",
+        "        \"es_valido\": es_triangulo(*lados)\n",
+        "    }\n",
+        "\n",
+        "    if triangulo[\"es_valido\"]:\n",
+        "        triangulo[\"tipo_lados\"] = tipo_por_lados(*lados)\n",
+        "        triangulo[\"tipo_angulos\"] = tipo_por_angulos(*lados)\n",
+        "\n",
+        "    triangulos.append(triangulo)"
+      ],
+      "metadata": {
+        "id": "Y1ep6aeHsyUY",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "bcf1c434-8204-48b5-b764-25604daaf472"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "¿Cuántos triángulos desea analizar? 2\n",
+            "\n",
+            "Triángulo 1:\n",
+            "Ingrese el lado 1: 3\n",
+            "Ingrese el lado 2: 3\n",
+            "Ingrese el lado 3: 3\n",
+            "\n",
+            "Triángulo 2:\n",
+            "Ingrese el lado 1: 4\n",
+            "Ingrese el lado 2: 2\n",
+            "Ingrese el lado 3: 4\n",
+            "\n",
+            "=== Resultados del Análisis ===\n",
+            "\n",
+            "Triángulo 1:\n",
+            "Lados: 3.0, 3.0, 3.0\n",
+            "¿Es un triángulo válido? Sí\n",
+            "Tipo según lados: Equilátero\n",
+            "Tipo según ángulos: Acutángulo\n",
+            "\n",
+            "Triángulo 2:\n",
+            "Lados: 4.0, 2.0, 4.0\n",
+            "¿Es un triángulo válido? Sí\n",
+            "Tipo según lados: Isósceles\n",
+            "Tipo según ángulos: Acutángulo\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Crea un programa que muestre la tabla de multiplicar de un número hasta el 10.***"
+      ],
+      "metadata": {
+        "id": "-Lv7ZtwAxofi"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***"
+      ],
+      "metadata": {
+        "id": "RW26yrELybTD"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def generar_tabla(numero):\n",
+        "    \"\"\"\n",
+        "    Genera la tabla de multiplicar para un número dado\n",
+        "    \"\"\"\n",
+        "    print(f\"\\n=== Tabla de multiplicar del {numero} ===\")\n",
+        "    print(\"=\" * 30)\n",
+        "\n",
+        "    resultados = []\n",
+        "\n",
+        "    for i in range(1, 11):\n",
+        "        resultado = numero * i\n",
+        "        resultados.append({\n",
+        "            \"multiplicador\": i,\n",
+        "            \"resultado\": resultado\n",
+        "        })\n",
+        "        print(f\"{numero} x {i} = {resultado}\")\n",
+        "\n",
+        "    print(\"=\" * 30)\n",
+        "while True:\n",
+        "    try:\n",
+        "        numero = int(input(\"Ingrese un número para ver su tabla de multiplicar: \"))\n",
+        "        break\n",
+        "    except ValueError:\n",
+        "        print(\"Por favor, ingrese un número válido\")\n",
+        "generar_tabla(numero)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "W9z32al9ya_s",
+        "outputId": "01e9dae8-8189-4f9f-ca0f-35230357c7fa"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Ingrese un número para ver su tabla de multiplicar: 4\n",
+            "\n",
+            "=== Tabla de multiplicar del 4 ===\n",
+            "==============================\n",
+            "4 x 1 = 4\n",
+            "4 x 2 = 8\n",
+            "4 x 3 = 12\n",
+            "4 x 4 = 16\n",
+            "4 x 5 = 20\n",
+            "4 x 6 = 24\n",
+            "4 x 7 = 28\n",
+            "4 x 8 = 32\n",
+            "4 x 9 = 36\n",
+            "4 x 10 = 40\n",
+            "==============================\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Escribe un programa que calcule la suma de números naturales hasta n.***"
+      ],
+      "metadata": {
+        "id": "Ai_G4VAxB5DU"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def sumar_naturales():\n",
+        "    suma = 0\n",
+        "    while True:\n",
+        "        try:\n",
+        "            n = int(input(\"Ingrese un número natural (o un número negativo para terminar): \"))\n",
+        "            if n < 0:\n",
+        "                break\n",
+        "            suma += n\n",
+        "        except ValueError:\n",
+        "            print(\"Entrada inválida. Por favor, ingrese un número entero.\")\n",
+        "    print(f\"La suma de los números ingresados es: {suma}\")\n",
+        "\n",
+        "sumar_naturales()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "C3vGkDHWELg_",
+        "outputId": "bb367f86-7580-4b2e-de35-befc12465526"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Ingrese un número natural (o un número negativo para terminar): 1\n",
+            "Ingrese un número natural (o un número negativo para terminar): 3\n",
+            "Ingrese un número natural (o un número negativo para terminar): 4\n",
+            "Ingrese un número natural (o un número negativo para terminar): 1\n",
+            "Ingrese un número natural (o un número negativo para terminar): 2\n",
+            "Ingrese un número natural (o un número negativo para terminar): -2\n",
+            "La suma de los números ingresados es: 11\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Desarrolla un programa que calcule el factorial de un número. Recuerda que el factorial de 0 es 1 y no existen factoriales negativos.***"
+      ],
+      "metadata": {
+        "id": "P86_kv-vFYkz"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        " def cf():\n",
+        "   while True:\n",
+        "       try:\n",
+        "           numero = int(input(\"Ingrese un número para calcular su factorial: \"))\n",
+        "           if numero < 0:\n",
+        "               print(\"No existen factoriales de números negativos\")\n",
+        "               continue\n",
+        "           factorial = 1\n",
+        "           for i in range(1, numero + 1):\n",
+        "               factorial *= i\n",
+        "           print(f\"El factorial de {numero} es: {factorial}\")\n",
+        "           break\n",
+        "       except ValueError:\n",
+        "           print(\"Por favor ingrese un número entero válido\")\n",
+        "cf()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "t7VX7Fj-FdD8",
+        "outputId": "412ee851-90c3-4f7f-9711-9411c71f1013"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Ingrese un número para calcular su factorial: 5\n",
+            "El factorial de 5 es: 120\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Crea un programa que muestre los primeros n números de la serie Fibonacci***"
+      ],
+      "metadata": {
+        "id": "5n6SSzuRL4d6"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def fibonacci():\n",
+        "   while True:\n",
+        "       try:\n",
+        "           n = int(input(\"¿Cuántos números de la serie Fibonacci desea ver? \"))\n",
+        "\n",
+        "           if n <= 0:\n",
+        "               print(\"Por favor ingrese un número positivo\")\n",
+        "               continue\n",
+        "           a, b = 0, 1\n",
+        "           for i in range(n):\n",
+        "               print(a, end=\" \")\n",
+        "               a, b = b, a + b\n",
+        "           print()\n",
+        "           break\n",
+        "\n",
+        "       except ValueError:\n",
+        "           print(\"Por favor ingrese un número entero válido\")\n",
+        "\n",
+        "fibonacci()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cOpXguLXMIqo",
+        "outputId": "e1746a8f-dd60-46ae-baaf-9892aeba156c"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "¿Cuántos números de la serie Fibonacci desea ver? 13\n",
+            "0 1 1 2 3 5 8 13 21 34 55 89 144 \n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "***Escribe un programa que adivine entre un conjunto de diez colores definidos por el usuario, con un máximo de 10 intentos.***"
+      ],
+      "metadata": {
+        "id": "HUIgNZRoMjSS"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import random\n",
+        "\n",
+        "def juego_adivinar_colores():\n",
+        "   # Lista predefinida de colores\n",
+        "   colores = ['rojo', 'azul', 'verde', 'amarillo', 'naranja',\n",
+        "              'morado', 'rosa', 'blanco', 'negro', 'gris']\n",
+        "\n",
+        "   # Seleccionar un color al azar\n",
+        "   color_secreto = random.choice(colores)\n",
+        "   intentos = 0\n",
+        "\n",
+        "   print(\"\\n¡Bienvenido al juego de adivinar colores!\")\n",
+        "   print(\"Estoy pensando en uno de estos colores:\")\n",
+        "   print(\", \".join(colores))\n",
+        "   print(\"\\nTienes 10 intentos para adivinar\")\n",
+        "\n",
+        "   while intentos < 10:\n",
+        "       intento = input(\"\\nIngresa un color: \").lower()\n",
+        "       intentos += 1\n",
+        "\n",
+        "       if intento not in colores:\n",
+        "           print(\"Ese color no está en la lista. Intenta con uno de los colores mostrados\")\n",
+        "           continue\n",
+        "\n",
+        "       if intento == color_secreto:\n",
+        "           print(f\"\\n¡Felicitaciones! Adivinaste en {intentos} intentos\")\n",
+        "           print(f\"El color era: {color_secreto}\")\n",
+        "           return\n",
+        "       else:\n",
+        "           intentos_restantes = 10 - intentos\n",
+        "           print(f\"Color incorrecto. Te quedan {intentos_restantes} intentos\")\n",
+        "\n",
+        "   print(f\"\\nSe acabaron los intentos. El color era: {color_secreto}\")\n",
+        "\n",
+        "# Iniciar el juego\n",
+        "juego_adivinar_colores()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Xw02upHMNJUK",
+        "outputId": "567cf742-e228-4026-84b8-73f12d0db64b"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "¡Bienvenido al juego de adivinar colores!\n",
+            "Estoy pensando en uno de estos colores:\n",
+            "rojo, azul, verde, amarillo, naranja, morado, rosa, blanco, negro, gris\n",
+            "\n",
+            "Tienes 10 intentos para adivinar\n",
+            "\n",
+            "Ingresa un color: rojo\n",
+            "Color incorrecto. Te quedan 9 intentos\n",
+            "\n",
+            "Ingresa un color: verde\n",
+            "\n",
+            "¡Felicitaciones! Adivinaste en 2 intentos\n",
+            "El color era: verde\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
